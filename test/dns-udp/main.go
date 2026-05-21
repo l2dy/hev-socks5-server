@@ -155,7 +155,9 @@ func parseResponse(data []byte, txID uint16) ([]net.IP, error) {
 		offset += 2
 
 		if rrtype == 1 && rdlen == 4 && offset+4 <= len(data) { // A record
-			addrs = append(addrs, net.IP(data[offset:offset+4]).To16())
+			ip := make(net.IP, 4)
+			copy(ip, data[offset:offset+4])
+			addrs = append(addrs, ip)
 		}
 		offset += rdlen
 	}
